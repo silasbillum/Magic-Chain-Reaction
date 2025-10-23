@@ -5,10 +5,17 @@ using UnityEngine;
 public class PointAndShoot : MonoBehaviour
 {
     public GameObject Wand;
-    private Vector3 target;
-
     public GameObject Fireball;
-    public float projectileSpeed = 30.0f;
+
+    public float projectileSpeed = 5.0f;
+
+    public float forwardOffset = 1.0f;
+    public float sideOffset = 0.2f;
+    public float angleOffset = 45f;
+
+    public int lifeTime = 7;
+
+    private Vector3 target;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -18,28 +25,47 @@ public class PointAndShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        target = transform.GetComponent<Camera>().ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-        Wand.transform.position = new Vector2(target.x, target.y);
+        float camDistance = Mathf.Abs(Camera.main.transform.position.z - Wand.transform.position.z);
+        target = Camera.main.ScreenToWorldPoint(
+            new Vector3(Input.mousePosition.x, Input.mousePosition.y, camDistance)
+        );
 
-        Vector3 difference = target - Wand.transform.position;
-        
-       
+        target.z = Wand.transform.position.z;
+        Wand.transform.position = target;
 
         if (Input.GetMouseButtonDown(0))
         {
-            float distance = difference.magnitude;
-            Vector2 direction = difference / distance;
-            direction.Normalize();
-            FireProjectile(direction);
+          
+            FireProjectile();
         }
         
     }
 
-    void FireProjectile (Vector2 direction)
+    void FireProjectile ()
     {
-        GameObject f = Instantiate(Fireball) as GameObject;
-        f.transform.position = Wand.transform.position;
-        f.GetComponent<Rigidbody2D>().linearVelocity = direction * projectileSpeed;
+        Vector2 direction = -Wand.transform.right;
+
         
+        direction = Quaternion.Euler(0, 0, -angleOffset) * direction;
+        direction.Normalize();
+
+       
+        Vector3 spawnPos = Wand.transform.position
+                         + (Vector3)(direction * forwardOffset)
+                         + (Wand.transform.right * sideOffset);
+
+       
+        GameObject f = Instantiate(Fireball, spawnPos, Quaternion.identity);
+
+       
+        float rotZ = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        f.transform.rotation = Quaternion.Euler(0f, 0f, rotZ);
+
+       
+        Rigidbody2D rb = f.GetComponent<Rigidbody2D>();
+        rb.linearVelocity = direction * projectileSpeed;
+
     }
+
+    
 }
