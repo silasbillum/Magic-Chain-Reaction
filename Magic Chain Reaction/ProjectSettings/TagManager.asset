@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Fireball
+  - Circle
   layers:
   - Default
   - TransparentFX

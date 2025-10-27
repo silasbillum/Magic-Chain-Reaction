@@ -1,17 +1,27 @@
 using System.Threading;
 using UnityEngine;
 
+
 public class Target : MonoBehaviour
 {
     public float speed = 2f;
     public float changeDirectionTime = 1.5f;
+    public int Count = 2;
+    public float fireBallSpeed = 5;
 
     private Vector2 direction;
     private float timer;
 
+    public GameObject Explosion;
+
+    public GameObject Fireball;
+
+    private ComboSystem comboSystem;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        comboSystem = FindFirstObjectByType<ComboSystem>();
         PickNewDirection();
        
     }
@@ -45,19 +55,47 @@ public class Target : MonoBehaviour
             direction.y *= -1;
 
         transform.position = pos;
+
+
     }
 
     void PickNewDirection()
     {
         float angle = Random.Range(0f, 360f);
-        direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sign(angle * Mathf.Deg2Rad)).normalized;
+        direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Fireball"))
         {
+            Instantiate(Explosion, transform.position, transform.rotation);
+
+            if(comboSystem != null)
+            {
+                comboSystem.AddCombo();
+            }
+            
             Destroy(gameObject);
+            Multiply();
+               
+        }
+    }
+
+    void Multiply()
+    {
+        for (int i = 0; i < Count; i++)
+        {
+            GameObject f = Instantiate(Fireball, transform.position, Quaternion.identity);
+
+            float angle = Random.Range(0f, 360f);
+            Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
+
+            Rigidbody2D rb = f.GetComponent<Rigidbody2D>();
+            if(rb != null )
+            {
+                rb.linearVelocity = direction * fireBallSpeed;
+            }
         }
     }
 

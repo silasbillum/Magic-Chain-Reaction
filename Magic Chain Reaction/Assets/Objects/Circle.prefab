@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5807717026752146480}
   m_Layer: 0
   m_Name: Circle
-  m_TagString: Untagged
+  m_TagString: Circle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -103,6 +103,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   changeDirectionTime: 1.5
+  Count: 2
+  fireBallSpeed: 5
+  Explosion: {fileID: 309642476569361194, guid: 2aba47173a4f7b94db51edc7fa05a120, type: 3}
+  Fireball: {fileID: 8400424712307853490, guid: 366377810aaf4fc4ab2be725a54c5712, type: 3}
 --- !u!58 &5807717026752146480
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,7 +137,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0

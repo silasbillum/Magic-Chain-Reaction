@@ -41,6 +41,8 @@ public class PointAndShoot : MonoBehaviour
         
     }
 
+    
+
     void FireProjectile ()
     {
         Vector2 direction = -Wand.transform.right;
