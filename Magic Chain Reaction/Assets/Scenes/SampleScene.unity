@@ -1711,7 +1711,7 @@ SpriteRenderer:
   m_SortingLayer: -3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: a2a79110b304d304abdf054b3599a02b, type: 3}
-  m_Color: {r: 0.6037736, g: 0.13955145, b: 0.49860403, a: 1}
+  m_Color: {r: 0.9245283, g: 0.22241008, b: 0.76387405, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -3200,7 +3200,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d07ddce11d0ded4ea2cf6c28b52a384, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Circle: {fileID: 3337619519381219226, guid: e3c98697f5363154d868dee0945868f3, type: 3}
+  Circle: {fileID: 3314243608743011524, guid: bd93a0a85046d634789475e2d5f94c20, type: 3}
   interval: 0.4
   spawnZ: 0
   lifetime: 6
