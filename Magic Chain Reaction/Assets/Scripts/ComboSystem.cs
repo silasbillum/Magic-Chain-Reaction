@@ -5,6 +5,7 @@ public class ComboSystem : MonoBehaviour
 {
     public TMP_Text comboText;
     public int comboScore = 0;
+    public ScoreManager scoreManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,11 +17,13 @@ public class ComboSystem : MonoBehaviour
     {
         comboScore++;
         UpdateComboText();
+
     }
 
    
     public void UpdateComboText()
     {
-        comboText.text = comboScore.ToString();
+        if (comboText != null)
+            comboText.text = comboScore.ToString();
     }
 }

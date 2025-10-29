@@ -5,32 +5,25 @@ using System.Collections;
 public class RoundTimer : MonoBehaviour
 {
     public TMP_Text roundTimer;
-    public float CountdownTimer;
+    public float CountdownTimer = 15f;
     public MenuManager menuManager;
 
-    void Start()
+    public void StartCountdown()
     {
-        StartCoroutine(StartCountdown());
+        StopAllCoroutines();
+        StartCoroutine(CountdownCoroutine());
     }
 
-    // Update is called once per frame
-    void Update()
+    private IEnumerator CountdownCoroutine()
     {
-        
-    }
-    public IEnumerator StartCountdown()
-    {
-        
         while (CountdownTimer > 0)
         {
             roundTimer.text = CountdownTimer.ToString("0");
-            yield return new WaitForSeconds(1.0f);
+            yield return new WaitForSeconds(1f); // works fine now since Time.timeScale = 1
             CountdownTimer--;
         }
 
         roundTimer.text = "0";
         menuManager.GameOver();
     }
-
-    
 }
