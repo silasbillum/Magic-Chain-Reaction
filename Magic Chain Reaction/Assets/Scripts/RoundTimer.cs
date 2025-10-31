@@ -1,17 +1,30 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
+using static UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty;
 
 public class RoundTimer : MonoBehaviour
 {
     public TMP_Text roundTimer;
-    public float CountdownTimer = 15f;
+    public float CountdownTimer;
+    private float defaultTime;
     public MenuManager menuManager;
+
+    private void Awake()
+    {
+        // Save the Inspector-assigned time so we can reset to it later
+        defaultTime = CountdownTimer;
+    }
 
     public void StartCountdown()
     {
         StopAllCoroutines();
         StartCoroutine(CountdownCoroutine());
+    }
+
+    public void ResetTimer()
+    {
+        CountdownTimer = defaultTime;
     }
 
     private IEnumerator CountdownCoroutine()

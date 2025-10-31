@@ -26,4 +26,6 @@ public class ComboSystem : MonoBehaviour
         if (comboText != null)
             comboText.text = comboScore.ToString();
     }
+
+
 }

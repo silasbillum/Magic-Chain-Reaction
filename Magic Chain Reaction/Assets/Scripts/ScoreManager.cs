@@ -13,7 +13,7 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text shopPoints;
     public int shopScore = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void Awake()
     {
         currentScore = PlayerPrefs.GetInt("PlayerScore", 0);
         roundScore = 0;
@@ -45,13 +45,16 @@ public class ScoreManager : MonoBehaviour
     }
 
     public void RemovePoints(int points) 
-    { 
+    {
         currentScore -= points;
-        shopScore -= points;
-        UpdateScoreText();
+        if (currentScore < 0) currentScore = 0;
+
+        shopScore = currentScore; // keep shopPoints in sync
 
         PlayerPrefs.SetInt("PlayerScore", currentScore);
         PlayerPrefs.Save();
+
+        UpdateScoreText();
     }
 
     public void ResetScore()

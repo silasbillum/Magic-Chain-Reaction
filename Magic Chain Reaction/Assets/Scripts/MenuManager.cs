@@ -34,7 +34,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
+  
     public void ShowMainMenu()
     {
         Cursor.visible = true;
@@ -62,11 +62,26 @@ public class MenuManager : MonoBehaviour
         if (pointAndShoot != null)
             pointAndShoot.enabled = true;
 
-        if (FindFirstObjectByType<RoundTimer>() != null)
-            FindFirstObjectByType<RoundTimer>().StartCountdown();
+        if (comboSystem != null)
+        {
+            comboSystem.comboScore = 0;
+            comboSystem.UpdateComboText();
+        }
 
         if (scoreManager != null)
             scoreManager.ResetRoundScore();
+
+        RoundTimer timer = FindFirstObjectByType<RoundTimer>();
+        if (timer != null)
+        {
+            timer.ResetTimer();     // restore Inspector time
+            timer.StartCountdown(); // start fresh
+        }
+
+
+        ClearAllObjectsWithTag("Fireball");
+        ClearAllObjectsWithTag("Circle");
+
 
         Debug.Log($"LostMenu active after StartGame: {LostMenu.activeSelf}");
 
@@ -80,7 +95,7 @@ public class MenuManager : MonoBehaviour
         Time.timeScale = 0f;
 
         LostMenu.SetActive(true);
-        GameUI.SetActive(true);
+        GameUI.SetActive(false);
         Menu.SetActive(false);
         UpgradeMenu.SetActive(false);
 
@@ -109,9 +124,69 @@ public class MenuManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
+    public void NewGame()
+    {
+        // --- Reactivate gameplay UI first ---
+        Cursor.visible = false;
+        Time.timeScale = 1f;
+
+        GameUI.SetActive(true);
+        Menu.SetActive(false);
+        LostMenu.SetActive(false);
+        UpgradeMenu.SetActive(false);
+
+        // --- Re-enable player input ---
+        if (pointAndShoot != null)
+            pointAndShoot.enabled = true;
+
+        // --- Reset runtime systems ---
+        if (scoreManager != null)
+            scoreManager.ResetScore();
+
+        if (comboSystem != null)
+        {
+            comboSystem.comboScore = 0;
+            comboSystem.UpdateComboText();
+        }
+
+        // --- Clear active enemies or projectiles ---
+        ClearAllObjectsWithTag("Fireball");
+        ClearAllObjectsWithTag("Circle");
+
+        // --- Reset and start timer ---
+        RoundTimer timer = FindFirstObjectByType<RoundTimer>();
+        if (timer != null)
+        {
+            timer.ResetTimer();     // restore Inspector-set value
+            timer.StartCountdown(); // start fresh countdown
+            Debug.Log($"Timer reset to {timer.CountdownTimer}");
+        }
+        else
+        {
+            Debug.LogWarning("RoundTimer not found in scene!");
+        }
+
+        // --- Reset persistent progress (optional) ---
+        PlayerPrefs.DeleteAll();
+        PlayerPrefs.Save();
+
+        Debug.Log("New game started — all progress and runtime state reset.");
+    }
+
+
+
     public void QuitGame()
     {
         Application.Quit();
         Debug.Log("Game Closed!");
+    }
+
+    private void ClearAllObjectsWithTag(string tag)
+    {
+        GameObject[] objects = GameObject.FindGameObjectsWithTag(tag);
+        foreach (GameObject obj in objects)
+        {
+            Destroy(obj);
+        }
     }
 }
