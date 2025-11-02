@@ -14,6 +14,8 @@ public class RoundTimer : MonoBehaviour
     {
         // Save the Inspector-assigned time so we can reset to it later
         defaultTime = CountdownTimer;
+
+       
     }
 
     public void StartCountdown()
@@ -25,6 +27,12 @@ public class RoundTimer : MonoBehaviour
     public void ResetTimer()
     {
         CountdownTimer = defaultTime;
+
+        if (UpgradeManager.Instance != null)
+        {
+            // Apply upgraded time every time you start a new round
+            CountdownTimer += UpgradeManager.Instance.moreTimeLevel * 5f;
+        }
     }
 
     private IEnumerator CountdownCoroutine()

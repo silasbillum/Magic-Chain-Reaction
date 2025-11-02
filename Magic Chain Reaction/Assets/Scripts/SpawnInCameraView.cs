@@ -5,8 +5,8 @@ public class SpawnInCameraView : MonoBehaviour
     [Tooltip("Prefab to spawn (your circle)")]
     public GameObject Circle;
 
-    [Tooltip("Seconds between spawns")]
-    public float interval = 3f;
+    [Tooltip("Seconds between spawns before upgrades")]
+    public float interval = 3f; // editable in Inspector, also used at runtime
 
     [Tooltip("World Z plane to place spawned objects (usually 0 for 2D)")]
     public float spawnZ = 0f;
@@ -19,25 +19,45 @@ public class SpawnInCameraView : MonoBehaviour
     public float minDepth = 1f;
     public float maxDepth = 5f;
 
-    Camera cam;
-    float timer;
+    private Camera cam;
+    private float timer;
+
+    private float currentInterval; // runtime-calculated interval
 
     void Awake()
     {
         cam = Camera.main;
         if (cam == null)
             Debug.LogWarning("No Camera.main found. Spawner will not spawn until a camera exists.");
+
+        ApplyUpgradeEffects(); // make sure it’s applied at start
     }
 
     void Update()
     {
         timer += Time.deltaTime;
-        if (timer >= interval)
+        if (timer >= currentInterval)
         {
             timer = 0f;
             SpawnRandomInCamera();
         }
     }
+
+    public void ApplyUpgradeEffects()
+    {
+        // start from the base interval (1 second in your case)
+        currentInterval = interval;
+
+        if (UpgradeManager.Instance != null)
+        {
+            // each "More Circles" upgrade reduces spawn interval by 0.2s
+            float bonus = UpgradeManager.Instance.moreCirclesLevel * 0.2f;
+            currentInterval = Mathf.Max(0.1f, currentInterval - bonus); // never go below 0.1s
+        }
+
+        Debug.Log($"[SpawnInCameraView] Spawn interval now = {currentInterval}s");
+    }
+
 
     void SpawnRandomInCamera()
     {
@@ -53,28 +73,14 @@ public class SpawnInCameraView : MonoBehaviour
             if (cam == null) return;
         }
 
-        // Random viewport coords (inside camera view)
-        float vx = Random.value; // 0..1
-        float vy = Random.value; // 0..1
-
-        // Determine z distance from camera for ViewportToWorldPoint
-        float zDistance;
-        if (useRandomDepthFromCamera)
-        {
-            // ensure min/max are valid
-            if (minDepth > maxDepth) { var t = minDepth; minDepth = maxDepth; maxDepth = t; }
-            zDistance = Random.Range(minDepth, maxDepth);
-        }
-        else
-        {
-            // distance from camera to desired world z plane
-            zDistance = Mathf.Abs(spawnZ - cam.transform.position.z);
-        }
+        float vx = Random.value;
+        float vy = Random.value;
+        float zDistance = useRandomDepthFromCamera
+            ? Random.Range(Mathf.Min(minDepth, maxDepth), Mathf.Max(minDepth, maxDepth))
+            : Mathf.Abs(spawnZ - cam.transform.position.z);
 
         Vector3 viewportPoint = new Vector3(vx, vy, zDistance);
         Vector3 worldPos = cam.ViewportToWorldPoint(viewportPoint);
-
-        // Force exact z plane (useful for 2D)
         worldPos.z = spawnZ;
 
         GameObject go = Instantiate(Circle, worldPos, Quaternion.identity);

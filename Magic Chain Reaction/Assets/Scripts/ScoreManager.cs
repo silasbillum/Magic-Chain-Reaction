@@ -12,6 +12,8 @@ public class ScoreManager : MonoBehaviour
 
     public TMP_Text shopPoints;
     public int shopScore = 0;
+
+    public float scoreMultiplier = 1f;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
@@ -21,13 +23,13 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
     }
 
-    public void AddPoints (int comboScore)
+    public void AddPoints (int basePoints)
     {
-        int scoreToAdd = comboScore * 2;
+        int total = Mathf.RoundToInt(basePoints * scoreMultiplier);
 
-        currentScore += scoreToAdd;
-        roundScore += scoreToAdd;
-        shopScore += scoreToAdd;
+        currentScore += total;
+        roundScore += total;
+        shopScore += total;
 
         UpdateScoreText();
 
@@ -35,7 +37,7 @@ public class ScoreManager : MonoBehaviour
         PlayerPrefs.SetInt("PlayerScore", currentScore);
         PlayerPrefs.Save();
 
-        Debug.Log($"Added {scoreToAdd} points! Round: {roundScore}, Total: {currentScore}");
+        Debug.Log($"Added {scoreMultiplier} points! Round: {roundScore}, Total: {currentScore}");
     }
 
     public void ResetRoundScore()

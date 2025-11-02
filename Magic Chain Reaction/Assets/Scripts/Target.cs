@@ -6,7 +6,7 @@ public class Target : MonoBehaviour
 {
     public float speed = 2f;
     public float changeDirectionTime = 1.5f;
-    public int Count = 2;
+    public int projectileCount = 2;
     public float fireBallSpeed = 5;
 
     private Vector2 direction;
@@ -84,7 +84,7 @@ public class Target : MonoBehaviour
 
     void Multiply()
     {
-        for (int i = 0; i < Count; i++)
+        for (int i = 0; i < projectileCount; i++)
         {
             GameObject f = Instantiate(Fireball, transform.position, Quaternion.identity);
 

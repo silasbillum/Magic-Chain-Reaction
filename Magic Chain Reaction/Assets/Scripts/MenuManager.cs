@@ -12,6 +12,8 @@ public class MenuManager : MonoBehaviour
     public PointAndShoot pointAndShoot;
     public ComboSystem comboSystem;
     public ScoreManager scoreManager;
+    public TotalTime totalTime;
+    public Target target;
 
     public static bool isRestarting = false;
 
@@ -32,6 +34,7 @@ public class MenuManager : MonoBehaviour
         {           
             ShowMainMenu();
         }
+        
     }
 
   
@@ -47,6 +50,9 @@ public class MenuManager : MonoBehaviour
 
         if (pointAndShoot != null)
             pointAndShoot.enabled = false;
+
+        if (totalTime != null)
+            totalTime.PauseTimer();
     }
 
     public void StartGame()
@@ -71,12 +77,21 @@ public class MenuManager : MonoBehaviour
         if (scoreManager != null)
             scoreManager.ResetRoundScore();
 
+        ApplyAllUpgrades();
+
         RoundTimer timer = FindFirstObjectByType<RoundTimer>();
         if (timer != null)
         {
             timer.ResetTimer();     // restore Inspector time
             timer.StartCountdown(); // start fresh
         }
+
+        if (totalTime != null)
+            totalTime.StartTimer();
+
+        var spawner = FindFirstObjectByType<SpawnInCameraView>();
+        if (spawner != null)
+            spawner.ApplyUpgradeEffects();
 
 
         ClearAllObjectsWithTag("Fireball");
@@ -115,6 +130,9 @@ public class MenuManager : MonoBehaviour
         LostMenu.SetActive(false);
         GameUI.SetActive(false);
         Menu.SetActive(false);
+
+        if (totalTime != null)
+            totalTime.PauseTimer();
     }
 
     public void Restart()
@@ -166,6 +184,9 @@ public class MenuManager : MonoBehaviour
             Debug.LogWarning("RoundTimer not found in scene!");
         }
 
+        if (totalTime != null)
+            totalTime.PauseTimer();
+
         // --- Reset persistent progress (optional) ---
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
@@ -189,4 +210,34 @@ public class MenuManager : MonoBehaviour
             Destroy(obj);
         }
     }
+
+    private void ApplyAllUpgrades()
+    {
+        if (UpgradeManager.Instance == null) return;
+
+        var upgrades = UpgradeManager.Instance;
+
+        // Example: More Projectiles
+        if (target != null)
+            target.projectileCount = 1 + upgrades.moreProjectilesLevel;
+
+        // Example: Faster Projectiles
+        if (pointAndShoot != null)
+            pointAndShoot.projectileSpeed = 10f + (upgrades.fasterProjectilesLevel * 2f);
+
+        // Example: More Circles
+        var spawner = FindFirstObjectByType<SpawnInCameraView>();
+        if (spawner != null)
+            spawner.ApplyUpgradeEffects();
+
+
+        // Example: More Points
+        if (scoreManager != null)
+            scoreManager.scoreMultiplier = 1f + (upgrades.morePointsLevel * 0.25f);
+
+        // Example: MultiPlay
+        if (upgrades.multiPlayLevel > 0)
+            Debug.Log($"Multiplay Level {upgrades.multiPlayLevel} active");
+    }
+
 }

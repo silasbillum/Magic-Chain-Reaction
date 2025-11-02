@@ -10,6 +10,7 @@ public class ShopManager : MonoBehaviour
     public Transform shopContainer;
     public GameObject shopItemPrefab;
     public List<ShopItem> shopItems;
+    public UpgradeManager upgradeManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -57,13 +58,59 @@ public class ShopManager : MonoBehaviour
 
             UpdateItemUI(item, priceText, boughtText, buyButton);
 
+            // Apply upgrade immediately
+            ApplyUpgradeEffect(item);
+
             Debug.Log("Bought: " + item.itemName);
         }
-        else
-        {
-            Debug.Log("Not Enough Points");
-        }
     }
+
+    private void ApplyUpgradeEffect(ShopItem item)
+    {
+        if (UpgradeManager.Instance == null) return;
+
+        switch (item.itemName)
+        {
+            case "More Circles":
+                UpgradeManager.Instance.moreCirclesLevel = item.bought;
+                break;
+
+            case "More Projectiles":
+                UpgradeManager.Instance.moreProjectilesLevel = item.bought;
+                break;
+
+            case "Faster Projectiles":
+                UpgradeManager.Instance.fasterProjectilesLevel = item.bought;
+                break;
+
+            case "Increase Points Earned":
+                UpgradeManager.Instance.morePointsLevel = item.bought;
+                break;
+
+            case "More Time":
+                UpgradeManager.Instance.moreTimeLevel = item.bought;
+                break;
+
+            case "Multiply":
+                UpgradeManager.Instance.multiPlayLevel = item.bought;
+                break;
+
+            case "Extra shots":
+                // You could add a field in your shooting script to use this value
+                break;
+
+            case "Bigger Circles":
+                // Add later if your circle prefab can scale with upgrades
+                break;
+
+            default:
+                Debug.LogWarning($"No upgrade logic defined for {item.itemName}");
+                break;
+        }
+
+        UpgradeManager.Instance.SaveUpgrades();
+    }
+
 
     private void UpdateItemUI(ShopItem item, TMP_Text priceText, TMP_Text boughtText, Button buyButton)
     {
