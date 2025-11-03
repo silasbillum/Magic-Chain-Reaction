@@ -23,6 +23,12 @@ public class ScoreManager : MonoBehaviour
         UpdateScoreText();
     }
 
+    public void OnUpgradesApplied(UpgradeManager upgrades)
+    {
+        scoreMultiplier = 1f + (upgrades.morePointsLevel * 0.25f);
+    }
+
+
     public void AddPoints (int basePoints)
     {
         int total = Mathf.RoundToInt(basePoints * scoreMultiplier);

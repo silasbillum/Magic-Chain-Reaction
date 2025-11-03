@@ -99,5 +99,10 @@ public class Target : MonoBehaviour
         }
     }
 
+    public void OnUpgradesApplied(UpgradeManager upgrades)
+    {
+        projectileCount = 1 + upgrades.moreProjectilesLevel;
+    }
+
 
 }

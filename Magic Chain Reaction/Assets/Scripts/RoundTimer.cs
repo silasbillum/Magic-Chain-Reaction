@@ -47,4 +47,10 @@ public class RoundTimer : MonoBehaviour
         roundTimer.text = "0";
         menuManager.GameOver();
     }
+
+    public void OnUpgradesApplied(UpgradeManager upgrades)
+    {
+        CountdownTimer = defaultTime + (upgrades.moreTimeLevel * 5f);
+    }
+
 }

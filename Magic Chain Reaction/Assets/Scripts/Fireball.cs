@@ -14,8 +14,8 @@ public class Fireball : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       
-        
+
+
     }
 
 
@@ -23,11 +23,13 @@ public class Fireball : MonoBehaviour
     {
         if (other.CompareTag("Circle"))
         {
-            
-          
+
+
             Destroy(gameObject);
-      
+
 
         }
     }
+
+
 }

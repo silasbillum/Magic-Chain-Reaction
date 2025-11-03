@@ -9747,7 +9747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   destroytimer: 5
-  projectileSpeed: 4
+  projectileSpeed: 10
 --- !u!1 &8776146644004418828
 GameObject:
   m_ObjectHideFlags: 0

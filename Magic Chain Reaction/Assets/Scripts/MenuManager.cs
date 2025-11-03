@@ -37,7 +37,19 @@ public class MenuManager : MonoBehaviour
         
     }
 
-  
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            // Only open LostMenu if the game is currently running
+            if (GameUI.activeSelf)
+            {
+                GameOver();
+            }
+        }
+    }
+
+
     public void ShowMainMenu()
     {
         Cursor.visible = true;
@@ -89,13 +101,14 @@ public class MenuManager : MonoBehaviour
         if (totalTime != null)
             totalTime.StartTimer();
 
-        var spawner = FindFirstObjectByType<SpawnInCameraView>();
-        if (spawner != null)
-            spawner.ApplyUpgradeEffects();
+       
 
 
         ClearAllObjectsWithTag("Fireball");
         ClearAllObjectsWithTag("Circle");
+
+        UpgradeManager.Instance.ApplyUpgradesToScene();
+
 
 
         Debug.Log($"LostMenu active after StartGame: {LostMenu.activeSelf}");
@@ -225,10 +238,7 @@ public class MenuManager : MonoBehaviour
         if (pointAndShoot != null)
             pointAndShoot.projectileSpeed = 10f + (upgrades.fasterProjectilesLevel * 2f);
 
-        // Example: More Circles
-        var spawner = FindFirstObjectByType<SpawnInCameraView>();
-        if (spawner != null)
-            spawner.ApplyUpgradeEffects();
+     
 
 
         // Example: More Points
@@ -239,5 +249,7 @@ public class MenuManager : MonoBehaviour
         if (upgrades.multiPlayLevel > 0)
             Debug.Log($"Multiplay Level {upgrades.multiPlayLevel} active");
     }
+
+
 
 }

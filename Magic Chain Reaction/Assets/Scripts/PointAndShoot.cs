@@ -69,5 +69,11 @@ public class PointAndShoot : MonoBehaviour
 
     }
 
-    
+    public void OnUpgradesApplied(UpgradeManager upgrades)
+    {
+        projectileSpeed = 10f + (upgrades.fasterProjectilesLevel * 2f);
+    }
+
+
+
 }

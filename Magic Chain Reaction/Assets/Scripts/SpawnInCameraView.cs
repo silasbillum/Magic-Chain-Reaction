@@ -1,28 +1,25 @@
-using UnityEngine;
+﻿using UnityEngine;
 
-public class SpawnInCameraView : MonoBehaviour
+public class SpawnInCameraView : MonoBehaviour, IUpgradeListener
 {
-    [Tooltip("Prefab to spawn (your circle)")]
+    [Header("Prefab & Timing")]
     public GameObject Circle;
-
-    [Tooltip("Seconds between spawns before upgrades")]
-    public float interval = 3f; // editable in Inspector, also used at runtime
-
-    [Tooltip("World Z plane to place spawned objects (usually 0 for 2D)")]
+    public float baseInterval = 3f;  // base spawn interval
     public float spawnZ = 0f;
-
-    [Tooltip("Auto-destroy spawned objects after this many seconds. 0 = never")]
     public float lifetime = 5f;
 
-    [Tooltip("If true, pick a random depth (distance) from the camera between minDepth and maxDepth")]
+    [Header("Random Depth")]
     public bool useRandomDepthFromCamera = false;
     public float minDepth = 1f;
     public float maxDepth = 5f;
 
+    [Header("Spawn Settings")]
+    public int baseSpawnCount = 1; // always spawn at least 1 circle
+    private int spawnCount;         // modified by upgrades
+
     private Camera cam;
     private float timer;
-
-    private float currentInterval; // runtime-calculated interval
+    public float currentInterval;
 
     void Awake()
     {
@@ -30,7 +27,11 @@ public class SpawnInCameraView : MonoBehaviour
         if (cam == null)
             Debug.LogWarning("No Camera.main found. Spawner will not spawn until a camera exists.");
 
-        ApplyUpgradeEffects(); // make sure it�s applied at start
+        spawnCount = baseSpawnCount;
+        currentInterval = baseInterval;
+
+        // Apply upgrades at start if UpgradeManager exists
+        UpgradeManager.Instance?.ApplyUpgradesToScene();
     }
 
     void Update()
@@ -39,52 +40,41 @@ public class SpawnInCameraView : MonoBehaviour
         if (timer >= currentInterval)
         {
             timer = 0f;
-            SpawnRandomInCamera();
+            SpawnCircles();
         }
     }
 
-    public void ApplyUpgradeEffects()
+    private void SpawnCircles()
     {
-        // start from the base interval (1 second in your case)
-        currentInterval = interval;
+        if (Circle == null || cam == null) return;
 
-        if (UpgradeManager.Instance != null)
+        for (int i = 0; i < spawnCount; i++)
         {
-            // each "More Circles" upgrade reduces spawn interval by 0.2s
-            float bonus = UpgradeManager.Instance.moreCirclesLevel * 0.2f;
-            currentInterval = Mathf.Max(0.1f, currentInterval - bonus); // never go below 0.1s
-        }
+            float vx = Random.value;
+            float vy = Random.value;
+            float zDistance = useRandomDepthFromCamera
+                ? Random.Range(Mathf.Min(minDepth, maxDepth), Mathf.Max(minDepth, maxDepth))
+                : Mathf.Abs(spawnZ - cam.transform.position.z);
 
-        Debug.Log($"[SpawnInCameraView] Spawn interval now = {currentInterval}s");
+            Vector3 viewportPoint = new Vector3(vx, vy, zDistance);
+            Vector3 worldPos = cam.ViewportToWorldPoint(viewportPoint);
+            worldPos.z = spawnZ;
+
+            GameObject go = Instantiate(Circle, worldPos, Quaternion.identity);
+            if (lifetime > 0f)
+                Destroy(go, lifetime);
+        }
     }
 
-
-    void SpawnRandomInCamera()
+    // Called automatically by UpgradeManager.ApplyUpgradesToScene()
+    public void OnUpgradesApplied(UpgradeManager upgrades)
     {
-        if (Circle == null)
-        {
-            Debug.LogWarning("SpawnInCameraView: circlePrefab is not assigned.");
-            return;
-        }
+        // Faster Circle Spawn → reduces interval
+        currentInterval = Mathf.Max(0.1f, baseInterval - (upgrades.fasterProjectilesLevel * 0.2f));
 
-        if (cam == null)
-        {
-            cam = Camera.main;
-            if (cam == null) return;
-        }
+        // More Circles → increases number spawned at once
+        spawnCount = baseSpawnCount + upgrades.moreCirclesLevel;
 
-        float vx = Random.value;
-        float vy = Random.value;
-        float zDistance = useRandomDepthFromCamera
-            ? Random.Range(Mathf.Min(minDepth, maxDepth), Mathf.Max(minDepth, maxDepth))
-            : Mathf.Abs(spawnZ - cam.transform.position.z);
-
-        Vector3 viewportPoint = new Vector3(vx, vy, zDistance);
-        Vector3 worldPos = cam.ViewportToWorldPoint(viewportPoint);
-        worldPos.z = spawnZ;
-
-        GameObject go = Instantiate(Circle, worldPos, Quaternion.identity);
-        if (lifetime > 0f)
-            Destroy(go, lifetime);
+        Debug.Log($"[SpawnInCameraView] Spawn Interval: {currentInterval}s, Spawn Count: {spawnCount}");
     }
 }
