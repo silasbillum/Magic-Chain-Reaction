@@ -14,6 +14,7 @@ public class MenuManager : MonoBehaviour
     public ScoreManager scoreManager;
     public TotalTime totalTime;
     public Target target;
+    public ShopManager shopManager;
 
     public static bool isRestarting = false;
 
@@ -89,7 +90,7 @@ public class MenuManager : MonoBehaviour
         if (scoreManager != null)
             scoreManager.ResetRoundScore();
 
-        ApplyAllUpgrades();
+        
 
         RoundTimer timer = FindFirstObjectByType<RoundTimer>();
         if (timer != null)
@@ -139,6 +140,7 @@ public class MenuManager : MonoBehaviour
         Cursor.visible = true;
         Time.timeScale = 0f;
 
+
         UpgradeMenu.SetActive(true);
         LostMenu.SetActive(false);
         GameUI.SetActive(false);
@@ -157,9 +159,17 @@ public class MenuManager : MonoBehaviour
 
     public void NewGame()
     {
-        // --- Reactivate gameplay UI first ---
+        Debug.Log("=== Starting New Game ===");
+
+        // --- Reactivate gameplay UI ---
         Cursor.visible = false;
+
+        isRestarting = true;
         Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // --- Reset Shop ---
+        if (shopManager != null)
+            shopManager.ResetAllItems();
 
         GameUI.SetActive(true);
         Menu.SetActive(false);
@@ -170,7 +180,7 @@ public class MenuManager : MonoBehaviour
         if (pointAndShoot != null)
             pointAndShoot.enabled = true;
 
-        // --- Reset runtime systems ---
+        // --- Reset score and combo ---
         if (scoreManager != null)
             scoreManager.ResetScore();
 
@@ -180,32 +190,55 @@ public class MenuManager : MonoBehaviour
             comboSystem.UpdateComboText();
         }
 
-        // --- Clear active enemies or projectiles ---
+        // --- Clear active projectiles and circles ---
         ClearAllObjectsWithTag("Fireball");
         ClearAllObjectsWithTag("Circle");
 
-        // --- Reset and start timer ---
+        // --- Reset timer ---
         RoundTimer timer = FindFirstObjectByType<RoundTimer>();
         if (timer != null)
         {
-            timer.ResetTimer();     // restore Inspector-set value
-            timer.StartCountdown(); // start fresh countdown
-            Debug.Log($"Timer reset to {timer.CountdownTimer}");
-        }
-        else
-        {
-            Debug.LogWarning("RoundTimer not found in scene!");
+            timer.ResetTimer();
+            timer.StartCountdown();
         }
 
         if (totalTime != null)
-            totalTime.PauseTimer();
+            totalTime.ResetTImer();
+            totalTime.StartTimer();
 
-        // --- Reset persistent progress (optional) ---
-        PlayerPrefs.DeleteAll();
-        PlayerPrefs.Save();
+        // --- Reset upgrades ---
+        if (UpgradeManager.Instance != null)
+        {
+            UpgradeManager.Instance.ResetUpgrades();
+            UpgradeManager.Instance.ApplyUpgradesToScene();
 
-        Debug.Log("New game started — all progress and runtime state reset.");
+            // Update Upgrade UI immediately
+            var statsUI = FindFirstObjectByType<UpgradeStatsUI>();
+            if (statsUI != null)
+                statsUI.UpdateUI();
+        }
+
+        
+
+
+        // Reset upgrades
+        if (UpgradeManager.Instance != null)
+        {
+            UpgradeManager.Instance.ResetUpgrades();
+            UpgradeManager.Instance.ApplyUpgradesToScene();
+        }
+        // --- Reset spawner ---
+        var spawner = FindFirstObjectByType<SpawnInCameraView>();
+        if (spawner != null)
+        {
+            spawner.enabled = false;
+            spawner.enabled = true;
+        }
+
+        Debug.Log("New game started — everything reset to default.");
     }
+
+
 
 
 
@@ -224,31 +257,7 @@ public class MenuManager : MonoBehaviour
         }
     }
 
-    private void ApplyAllUpgrades()
-    {
-        if (UpgradeManager.Instance == null) return;
-
-        var upgrades = UpgradeManager.Instance;
-
-        // Example: More Projectiles
-        if (target != null)
-            target.projectileCount = 1 + upgrades.moreProjectilesLevel;
-
-        // Example: Faster Projectiles
-        if (pointAndShoot != null)
-            pointAndShoot.projectileSpeed = 10f + (upgrades.fasterProjectilesLevel * 2f);
-
-     
-
-
-        // Example: More Points
-        if (scoreManager != null)
-            scoreManager.scoreMultiplier = 1f + (upgrades.morePointsLevel * 0.25f);
-
-        // Example: MultiPlay
-        if (upgrades.multiPlayLevel > 0)
-            Debug.Log($"Multiplay Level {upgrades.multiPlayLevel} active");
-    }
+    
 
 
 

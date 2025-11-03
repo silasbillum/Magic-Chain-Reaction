@@ -4,7 +4,7 @@ public class SpawnInCameraView : MonoBehaviour, IUpgradeListener
 {
     [Header("Prefab & Timing")]
     public GameObject Circle;
-    public float baseInterval = 3f;  // base spawn interval
+    public float baseInterval = 1f;  // base spawn interval
     public float spawnZ = 0f;
     public float lifetime = 5f;
 
@@ -69,12 +69,8 @@ public class SpawnInCameraView : MonoBehaviour, IUpgradeListener
     // Called automatically by UpgradeManager.ApplyUpgradesToScene()
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
-        // Faster Circle Spawn → reduces interval
-        currentInterval = Mathf.Max(0.1f, baseInterval - (upgrades.fasterProjectilesLevel * 0.2f));
-
-        // More Circles → increases number spawned at once
-        spawnCount = baseSpawnCount + upgrades.moreCirclesLevel;
-
-        Debug.Log($"[SpawnInCameraView] Spawn Interval: {currentInterval}s, Spawn Count: {spawnCount}");
+        currentInterval = upgrades.circleInterval;
+        spawnCount = upgrades.circleSpawnCount;
     }
+
 }

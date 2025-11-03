@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System.Collections;
-using static UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty;
+
 
 public class RoundTimer : MonoBehaviour
 {
@@ -50,7 +50,7 @@ public class RoundTimer : MonoBehaviour
 
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
-        CountdownTimer = defaultTime + (upgrades.moreTimeLevel * 5f);
+        CountdownTimer = upgrades.roundTime;
     }
 
 }

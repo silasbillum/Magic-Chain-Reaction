@@ -18,8 +18,10 @@ public class ShopManager : MonoBehaviour
         PopulateShop();
     }
 
-    private void PopulateShop()
+    public void PopulateShop()
     {
+        
+
         foreach (ShopItem item in shopItems)
         {
             GameObject obj = Instantiate(shopItemPrefab, shopContainer, false);
@@ -74,42 +76,34 @@ public class ShopManager : MonoBehaviour
             case "More Circles":
                 UpgradeManager.Instance.moreCirclesLevel = item.bought;
                 break;
-
-            case "More Projectiles":
-                UpgradeManager.Instance.moreProjectilesLevel = item.bought;
+            case "Extra Shots":
+                UpgradeManager.Instance.extraShotsLevel = item.bought;
                 break;
-
             case "Faster Projectiles":
                 UpgradeManager.Instance.fasterProjectilesLevel = item.bought;
                 break;
-
             case "Increase Points Earned":
-                UpgradeManager.Instance.morePointsLevel = item.bought;
+                UpgradeManager.Instance.increasePointsLevel = item.bought;
                 break;
-
             case "More Time":
                 UpgradeManager.Instance.moreTimeLevel = item.bought;
                 break;
-
-            case "Multiply":
-                UpgradeManager.Instance.multiPlayLevel = item.bought;
+            case "Projectile Count":
+                UpgradeManager.Instance.projectileCountLevel = item.bought;
                 break;
-
-            case "Extra shots":
-                // You could add a field in your shooting script to use this value
+            case "Faster Circle Spawn":
+                UpgradeManager.Instance.fasterCircleSpawnLevel = item.bought;
                 break;
-
-            case "Bigger Circles":
-                // Add later if your circle prefab can scale with upgrades
-                break;
-
             default:
                 Debug.LogWarning($"No upgrade logic defined for {item.itemName}");
                 break;
         }
 
         UpgradeManager.Instance.SaveUpgrades();
+        UpgradeManager.Instance.ApplyUpgradesToScene();
+        FindFirstObjectByType<UpgradeStatsUI>()?.UpdateUI();
     }
+
 
 
     private void UpdateItemUI(ShopItem item, TMP_Text priceText, TMP_Text boughtText, Button buyButton)
@@ -133,5 +127,17 @@ public class ShopManager : MonoBehaviour
             item.bought = PlayerPrefs.GetInt(item.itemName + "_bought", 0);
         }
     }
+
+    public void ResetAllItems()
+    {
+        foreach (var item in shopItems)
+        {
+            item.bought = 0;                       // reset in memory
+            PlayerPrefs.SetInt(item.itemName + "_bought", 0); // reset in PlayerPrefs
+        }
+        PlayerPrefs.Save();
+    }
+
+
 
 }

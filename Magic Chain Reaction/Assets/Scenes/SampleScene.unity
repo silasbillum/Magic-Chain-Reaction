@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 5151169}
   - component: {fileID: 5151171}
   - component: {fileID: 5151170}
+  - component: {fileID: 5151172}
   m_Layer: 5
   m_Name: StatsWindow
   m_TagString: Untagged
@@ -160,8 +161,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 347.96765, y: 140.26003}
-  m_SizeDelta: {x: -695.9353, y: -280.5201}
+  m_AnchoredPosition: {x: 318.5602, y: 102.18515}
+  m_SizeDelta: {x: -637.1205, y: -204.3704}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5151170
 MonoBehaviour:
@@ -201,6 +202,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5151168}
   m_CullTransparentMesh: 1
+--- !u!114 &5151172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5151168}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9423f08f28f17b41b6684b9b6b3aadf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moreCirclesText: {fileID: 563750631}
+  extraShotsText: {fileID: 1640260939}
+  fasterProjectilesText: {fileID: 495423066}
+  increasePointsText: {fileID: 1654072978}
+  moreTimeText: {fileID: 1366902920}
+  projectileCountText: {fileID: 1607362420}
+  fasterCircleSpawnText: {fileID: 2061646993}
 --- !u!1 &43399120
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +319,7 @@ GameObject:
   - component: {fileID: 54686038}
   - component: {fileID: 54686040}
   - component: {fileID: 54686039}
-  m_Layer: 5
+  m_Layer: 0
   m_Name: TotalTimer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -314,7 +334,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 54686037}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -565}
   m_LocalScale: {x: 1.32375, y: 1.32375, z: 1.32375}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -322,7 +342,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 736, y: -460}
+  m_AnchoredPosition: {x: 396, y: -261}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &54686039
@@ -1684,6 +1704,7 @@ MonoBehaviour:
   scoreManager: {fileID: 572288753}
   totalTime: {fileID: 1263821286}
   target: {fileID: 0}
+  shopManager: {fileID: 0}
 --- !u!1 &495423064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1718,8 +1739,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: 11.9052}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: -3.2981, y: -8.1112}
+  m_SizeDelta: {x: 148.2279, y: 38.9608}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &495423066
 MonoBehaviour:
@@ -1741,7 +1762,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Faster Projectiles
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1974,7 +1995,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Wand: {fileID: 1035248963}
   Fireball: {fileID: 8400424712307853490, guid: 366377810aaf4fc4ab2be725a54c5712, type: 3}
-  projectileSpeed: 5
+  projectileSpeed: 5.07
   forwardOffset: 1
   sideOffset: 0.2
   angleOffset: 45
@@ -2026,8 +2047,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: 58.295063}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: 2.4, y: 102.91012}
+  m_SizeDelta: {x: 148.2279, y: 34.008}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &563750631
 MonoBehaviour:
@@ -2049,7 +2070,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'More Circles:'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2895,7 +2916,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 4.0298, y: 161}
+  m_AnchoredPosition: {x: -42, y: 153}
   m_SizeDelta: {x: 408.384, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &774950513
@@ -3143,27 +3164,17 @@ MonoBehaviour:
     priceIncrease: 500
     maxPurchases: 30
     bought: 0
-  - itemName: Bigger Circles
-    basePrice: 200
-    priceIncrease: 300
-    maxPurchases: 5
-    bought: 0
   - itemName: More Time
     basePrice: 1
     priceIncrease: 1
     maxPurchases: 10
     bought: 0
-  - itemName: ProjectileCount
+  - itemName: Projectile Count
     basePrice: 1000
     priceIncrease: 2000
     maxPurchases: 10
     bought: 0
-  - itemName: Extra shots
-    basePrice: 40
-    priceIncrease: 40
-    maxPurchases: -1
-    bought: 0
-  - itemName: Faster Circle spawn
+  - itemName: Faster Circle Spawn
     basePrice: 40
     priceIncrease: 40
     maxPurchases: -1
@@ -4928,15 +4939,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moreCirclesLevel: 0
-  moreProjectilesLevel: 0
+  extraShotsLevel: 0
   fasterProjectilesLevel: 0
-  morePointsLevel: 0
-  moreTimeLevel: 17
-  multiPlayLevel: 0
-  circleSpawnInterval: 1
-  projectileSpeed: 10
-  scoreMultiplier: 1
-  roundTime: 115
+  increasePointsLevel: 44
+  moreTimeLevel: 50
+  projectileCountLevel: 0
+  fasterCircleSpawnLevel: 0
 --- !u!4 &1361087291
 Transform:
   m_ObjectHideFlags: 0
@@ -4986,8 +4994,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: -16.385912}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: -3.3, y: -68.7}
+  m_SizeDelta: {x: 148.2279, y: 19.7685}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1366902920
 MonoBehaviour:
@@ -5009,7 +5017,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: More Time
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5976,8 +5984,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: -30.9}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: -3.3, y: -100.9}
+  m_SizeDelta: {x: 148.2279, y: 37.7226}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1607362420
 MonoBehaviour:
@@ -5999,9 +6007,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Projectiles Count
-
-'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6110,7 +6116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Circle: {fileID: 3314243608743011524, guid: bd93a0a85046d634789475e2d5f94c20, type: 3}
-  baseInterval: 3
+  baseInterval: 1
   spawnZ: 0
   lifetime: 6
   useRandomDepthFromCamera: 0
@@ -6275,8 +6281,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: 27.1462}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: -3.2981, y: 30.2}
+  m_SizeDelta: {x: 148.2279, y: 32.151}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1640260939
 MonoBehaviour:
@@ -6298,7 +6304,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: More Projectiles
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6411,8 +6417,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: -1.9069}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: 2.0129, y: -41.5}
+  m_SizeDelta: {x: 158.85, y: 27.8169}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1654072978
 MonoBehaviour:
@@ -6434,7 +6440,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Increase Points
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6499,7 +6505,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0.6191406, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -6684,8 +6690,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: -63.98297}
-  m_SizeDelta: {x: 761.1345, y: 743.1039}
+  m_AnchoredPosition: {x: -0.0012932, y: 0.0040283}
+  m_SizeDelta: {x: 706, y: 372.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1716478257
 MonoBehaviour:
@@ -6760,7 +6766,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 2560, y: 1440}
+  m_SizeDelta: {x: 1059, y: 596}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790090704
 MonoBehaviour:
@@ -7341,8 +7347,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 25.8861, y: 43.054035}
-  m_SizeDelta: {x: 148.2279, y: 47.6282}
+  m_AnchoredPosition: {x: 2.4, y: 66.091}
+  m_SizeDelta: {x: 148.2279, y: 39.631}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2061646993
 MonoBehaviour:
@@ -7364,7 +7370,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Faster Circles
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7429,7 +7435,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 0.000001921842}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

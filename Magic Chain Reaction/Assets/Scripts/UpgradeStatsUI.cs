@@ -1,20 +1,27 @@
 using TMPro;
 using UnityEngine;
 
-public class UpgradeStatsUI : MonoBehaviour
+public class UpgradeStatsUI : MonoBehaviour, IUpgradeListener
 {
     public TMP_Text moreCirclesText;
-    public TMP_Text fasterCirclesText;
-    public TMP_Text moreProjectilesText;
+    public TMP_Text extraShotsText;
     public TMP_Text fasterProjectilesText;
-    public TMP_Text morePointsText;
+    public TMP_Text increasePointsText;
     public TMP_Text moreTimeText;
-    public TMP_Text multiPlayText;
+    public TMP_Text projectileCountText;
+    public TMP_Text fasterCircleSpawnText;
 
-    void OnEnable()
+    
+
+    private bool isVisible = true;
+
+    void Start()
     {
         UpdateUI();
+        gameObject.SetActive(isVisible);
     }
+
+  
 
     public void UpdateUI()
     {
@@ -22,11 +29,16 @@ public class UpgradeStatsUI : MonoBehaviour
         if (u == null) return;
 
         moreCirclesText.text = $"More Circles: {u.moreCirclesLevel} (+{u.moreCirclesLevel} circles)";
-        fasterCirclesText.text = $"Faster Circles: {u.fasterProjectilesLevel} (-{u.fasterProjectilesLevel * 0.2f}s interval)";
-        moreProjectilesText.text = $"More Projectiles: {u.moreProjectilesLevel} (+{u.moreProjectilesLevel} shots)";
-        fasterProjectilesText.text = $"Faster Projectiles: {u.fasterProjectilesLevel} (+{u.fasterProjectilesLevel * 2f} speed)";
-        morePointsText.text = $"Increase Points: {u.morePointsLevel} (x{1f + u.morePointsLevel * 0.25f})";
-        moreTimeText.text = $"More Time: {u.moreTimeLevel} (+{u.moreTimeLevel * 5} sec)";
-        multiPlayText.text = $"Projectiles Count: {u.multiPlayLevel} (Level {u.multiPlayLevel})";
+        extraShotsText.text = $"Extra Shots: {u.extraShotsLevel} (+{u.extraShotsLevel} max shots)";
+        fasterProjectilesText.text = $"Faster Projectiles: {u.fasterProjectilesLevel} (+{u.projectileSpeed} speed)";
+        increasePointsText.text = $"Increase Points: {u.increasePointsLevel} (x{u.scoreMultiplier})";
+        moreTimeText.text = $"More Time: {u.moreTimeLevel} (+{u.moreTimeLevel * 5}s)";
+        projectileCountText.text = $"Projectile Count: {u.projectileCountLevel} (+{u.targetProjectileCount} shots per target)";
+        fasterCircleSpawnText.text = $"Faster Circle Spawn: {u.fasterCircleSpawnLevel} (-{u.fasterCircleSpawnLevel * 0.2f}s interval)";
+    }
+
+    public void OnUpgradesApplied(UpgradeManager upgrades)
+    {
+        UpdateUI();
     }
 }

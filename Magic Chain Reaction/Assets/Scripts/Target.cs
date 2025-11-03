@@ -6,7 +6,7 @@ public class Target : MonoBehaviour
 {
     public float speed = 2f;
     public float changeDirectionTime = 1.5f;
-    public int projectileCount = 2;
+    public int projectileCount ;
     public float fireBallSpeed = 5;
 
     private Vector2 direction;
@@ -23,7 +23,10 @@ public class Target : MonoBehaviour
     {
         comboSystem = FindFirstObjectByType<ComboSystem>();
         PickNewDirection();
-       
+
+        // Apply current upgrades immediately when spawned
+        if (UpgradeManager.Instance != null)
+            OnUpgradesApplied(UpgradeManager.Instance);
     }
 
     // Update is called once per frame
@@ -101,7 +104,7 @@ public class Target : MonoBehaviour
 
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
-        projectileCount = 1 + upgrades.moreProjectilesLevel;
+        projectileCount = upgrades.targetProjectileCount;
     }
 
 

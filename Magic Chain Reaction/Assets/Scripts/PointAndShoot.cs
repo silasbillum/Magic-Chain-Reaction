@@ -1,8 +1,7 @@
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+
 using UnityEngine;
 
-public class PointAndShoot : MonoBehaviour
+public class PointAndShoot : MonoBehaviour, IUpgradeListener
 {
     public GameObject Wand;
     public GameObject Fireball;
@@ -70,9 +69,10 @@ public class PointAndShoot : MonoBehaviour
     }
 
     public void OnUpgradesApplied(UpgradeManager upgrades)
-    {
-        projectileSpeed = 10f + (upgrades.fasterProjectilesLevel * 2f);
-    }
+{
+    projectileSpeed = upgrades.projectileSpeed;
+}
+
 
 
 

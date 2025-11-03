@@ -25,8 +25,9 @@ public class ScoreManager : MonoBehaviour
 
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
-        scoreMultiplier = 1f + (upgrades.morePointsLevel * 0.25f);
+        scoreMultiplier = upgrades.scoreMultiplier;
     }
+
 
 
     public void AddPoints (int basePoints)

@@ -104,7 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 2
   changeDirectionTime: 1.5
-  Count: 2
+  projectileCount: 5
   fireBallSpeed: 5
   Explosion: {fileID: 309642476569361194, guid: 2aba47173a4f7b94db51edc7fa05a120, type: 3}
   Fireball: {fileID: 8400424712307853490, guid: 366377810aaf4fc4ab2be725a54c5712, type: 3}
