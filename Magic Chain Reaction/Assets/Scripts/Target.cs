@@ -1,35 +1,37 @@
-using System.Threading;
-using UnityEngine;
+﻿using UnityEngine;
 
+public enum TargetType { Normal, Tank, Blackhole, Spawner }
 
 public class Target : MonoBehaviour
 {
+    [Header("Stats")]
+    public TargetType targetType = TargetType.Normal;
+    public int health = 1;
     public float speed = 2f;
     public float changeDirectionTime = 1.5f;
-    public int projectileCount ;
+    public int projectileCount = 2;
     public float fireBallSpeed = 5;
+    public float lifetime = 5f;
+
+    [Header("Effects")]
+    public GameObject Explosion;
+    public GameObject Fireball;
 
     private Vector2 direction;
     private float timer;
-
-    public GameObject Explosion;
-
-    public GameObject Fireball;
+    private bool isDestroyed = false;
 
     private ComboSystem comboSystem;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         comboSystem = FindFirstObjectByType<ComboSystem>();
         PickNewDirection();
 
-        // Apply current upgrades immediately when spawned
         if (UpgradeManager.Instance != null)
             OnUpgradesApplied(UpgradeManager.Instance);
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.Translate(direction * speed * Time.deltaTime);
@@ -40,8 +42,6 @@ public class Target : MonoBehaviour
             PickNewDirection();
             timer = 0;
         }
-
-       
     }
 
     void LateUpdate()
@@ -58,8 +58,6 @@ public class Target : MonoBehaviour
             direction.y *= -1;
 
         transform.position = pos;
-
-
     }
 
     void PickNewDirection()
@@ -70,18 +68,38 @@ public class Target : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (isDestroyed) return;
+
         if (other.CompareTag("Fireball"))
         {
-            Instantiate(Explosion, transform.position, transform.rotation);
+            // fireball always disappears when it hits anything
+            Destroy(other.gameObject);
 
-            if(comboSystem != null)
+            health--;
+
+            // only destroy target when health reaches 0
+            if (health <= 0)
             {
-                comboSystem.AddCombo();
-            }
-            
-            Destroy(gameObject);
-            Multiply();
+                isDestroyed = true;
+
+                if (Explosion != null)
+                    Instantiate(Explosion, transform.position, transform.rotation);
+
                
+                if (comboSystem != null)
+                    comboSystem.AddCombo();
+
+             
+                if (targetType != TargetType.Blackhole && projectileCount > 0)
+                    Multiply();
+
+                Destroy(gameObject);
+            }
+            else
+            {
+                
+                transform.localScale *= 0.95f;
+            }
         }
     }
 
@@ -92,20 +110,18 @@ public class Target : MonoBehaviour
             GameObject f = Instantiate(Fireball, transform.position, Quaternion.identity);
 
             float angle = Random.Range(0f, 360f);
-            Vector2 direction = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
+            Vector2 dir = new Vector2(Mathf.Cos(angle * Mathf.Deg2Rad), Mathf.Sin(angle * Mathf.Deg2Rad)).normalized;
 
             Rigidbody2D rb = f.GetComponent<Rigidbody2D>();
-            if(rb != null )
-            {
-                rb.linearVelocity = direction * fireBallSpeed;
-            }
+            if (rb != null)
+                rb.linearVelocity = dir * fireBallSpeed;
         }
     }
 
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
-        projectileCount = upgrades.targetProjectileCount;
-    }
+        projectileCount = Mathf.Max(projectileCount, upgrades.targetProjectileCount);
 
+    }
 
 }

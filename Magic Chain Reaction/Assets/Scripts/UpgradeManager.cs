@@ -19,9 +19,11 @@ public class UpgradeManager : MonoBehaviour
     public int circleSpawnCount => 3 + moreCirclesLevel;
     public int maxShots => 1 + extraShotsLevel;
     public float projectileSpeed => 10f + fasterProjectilesLevel * 2f;
-    public float scoreMultiplier => 1f + increasePointsLevel * 0.25f;
+    public float scoreMultiplier => 2f + increasePointsLevel * 0.5f;
     public float roundTime => 30f + moreTimeLevel * 5f;
-    public int targetProjectileCount => 1 + projectileCountLevel * 2;
+    public int targetProjectileCount => 1 + projectileCountLevel * 1;
+
+
 
     void Awake()
     {
