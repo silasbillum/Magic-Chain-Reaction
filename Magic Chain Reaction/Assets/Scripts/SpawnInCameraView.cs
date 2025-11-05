@@ -91,9 +91,6 @@ public class SpawnInCameraView : MonoBehaviour, IUpgradeListener
             Target target = go.GetComponent<Target>();
             if (target != null)
             {
-                ConfigureTargetByType(go.name, target);
-
-                // ✅ Apply all upgrades AFTER base stats
                 if (UpgradeManager.Instance != null)
                     target.OnUpgradesApplied(UpgradeManager.Instance);
             }
@@ -128,14 +125,16 @@ public class SpawnInCameraView : MonoBehaviour, IUpgradeListener
         cumulative += spawnerChance;
         if (roll < cumulative) return spawnerCirclePrefab;
 
-        cumulative += tankChance;
-        if (roll < cumulative) return tankCirclePrefab;
+        
 
         // --- Blackhole only appears after combo 200 ---
         if (highComboMode)
         {
             cumulative += blackholeChance;
             if (roll < cumulative) return blackholeCirclePrefab;
+
+            cumulative += tankChance;
+            if (roll < cumulative) return tankCirclePrefab;
         }
 
         // fallback
@@ -144,48 +143,48 @@ public class SpawnInCameraView : MonoBehaviour, IUpgradeListener
 
 
     // Configure stats based on prefab type
-    private void ConfigureTargetByType(string name, Target t)
-    {
-        // Reset defaults
-        t.projectileCount = 2;
-        t.speed = 2f;
-        t.fireBallSpeed = 5f;
-        t.lifetime = 5f;
+    //private void ConfigureTargetByType(string name, Target t)
+    //{
+    //    // Reset defaults
+    //    t.projectileCount = 2;
+    //    t.speed = 2f;
+    //    t.fireBallSpeed = 5f;
+    //    t.lifetime = 5f;
         
 
-        if (name.Contains("Tank"))
-        {
-            t.targetType = TargetType.Tank;
-            t.health = 5;
-            t.projectileCount = 2; // tanks still multiply
-            t.speed = 1.2f;
-        }
-        else if (name.Contains("Blackhole"))
-        {
-            t.targetType = TargetType.Blackhole;
-            t.health = 20;
-            t.projectileCount = 0; // blackhole doesn't multiply
-            t.speed = 0.8f;
-        }
-        else if (name.Contains("Spawner"))
-        {
-            t.targetType = TargetType.Spawner;
-            t.health = 1;
-            t.projectileCount = 15; // spawns 15 on death
-            t.speed = 1.5f;
-        }
-        else
-        {
-            t.targetType = TargetType.Normal;
-            t.health = 1;
-            t.projectileCount = 1;
-            t.speed = 2.5f;
-            t.lifetime = 1f;
-        }
-    }
+    //    if (name.Contains("Tank"))
+    //    {
+    //        t.targetType = TargetType.Tank;
+    //        t.health = 5;
+    //        t.projectileCount = 2; // tanks still multiply
+    //        t.speed = 1.2f;
+    //    }
+    //    else if (name.Contains("Blackhole"))
+    //    {
+    //        t.targetType = TargetType.Blackhole;
+    //        t.health = 20;
+    //        t.projectileCount = 0; // blackhole doesn't multiply
+    //        t.speed = 0.8f;
+    //    }
+    //    else if (name.Contains("Spawner"))
+    //    {
+    //        t.targetType = TargetType.Spawner;
+    //        t.health = 1;
+    //        t.projectileCount = 15; // spawns 15 on death
+    //        t.speed = 1.5f;
+    //    }
+    //    else
+    //    {
+    //        t.targetType = TargetType.Normal;
+    //        t.health = 1;
+    //        t.projectileCount = 10;
+    //        t.speed = 2.5f;
+    //        t.lifetime = 1f;
+    //    }
+    //}
 
 
-    // Called automatically by UpgradeManager.ApplyUpgradesToScene()
+    // Called automatically by UpgradeManager.ApplyUpgradesToScene()4
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
         currentInterval = upgrades.circleInterval;

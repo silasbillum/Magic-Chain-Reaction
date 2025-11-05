@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using JetBrains.Annotations;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : MonoBehaviour, IUpgradeListener
 {
     public TMP_Text scoreText;
     public int currentScore = 0;
@@ -13,10 +13,13 @@ public class ScoreManager : MonoBehaviour
     public TMP_Text shopPoints;
     public int shopScore = 0;
 
-    public float scoreMultiplier = 1f;
+    public float scoreMultiplier = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Awake()
     {
+        if (UpgradeManager.Instance != null)
+            UpgradeManager.Instance.ApplyUpgradesToScene();
+
         currentScore = PlayerPrefs.GetInt("PlayerScore", 0);
         roundScore = 0;
 

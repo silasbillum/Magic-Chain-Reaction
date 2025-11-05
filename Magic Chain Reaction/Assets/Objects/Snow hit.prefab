@@ -9811,6 +9811,7 @@ GameObject:
   - component: {fileID: 1606931281552756304}
   - component: {fileID: 6932007144584805798}
   - component: {fileID: 4068040068209137011}
+  - component: {fileID: 6065685828513683941}
   m_Layer: 0
   m_Name: Snow hit
   m_TagString: Untagged
@@ -14704,6 +14705,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &6065685828513683941
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6810908720686235267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ea1cdef02028ff41b4fe4865c57b7ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6983433936123429464
 GameObject:
   m_ObjectHideFlags: 0

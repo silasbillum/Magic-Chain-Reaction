@@ -138,10 +138,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetType: 2
-  health: 1
+  health: 20
   speed: 2
   changeDirectionTime: 1.5
   projectileCount: 0
   fireBallSpeed: 5
-  Explosion: {fileID: 0}
-  Fireball: {fileID: 7007733946607444215, guid: 908481fea138ad74fad077e8cee43d97, type: 3}
+  lifetime: 99
+  Explosion: {fileID: 3721477940088913004, guid: 4c5b0d849e6712042af86a9c7fe42945, type: 3}
+  Fireball: {fileID: 0}
+  Lightning: {fileID: 0}

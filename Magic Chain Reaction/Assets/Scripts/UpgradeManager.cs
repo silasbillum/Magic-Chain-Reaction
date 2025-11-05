@@ -49,6 +49,8 @@ public class UpgradeManager : MonoBehaviour
         PlayerPrefs.SetInt("ProjectileCount", projectileCountLevel);
         PlayerPrefs.SetInt("FasterCircleSpawn", fasterCircleSpawnLevel);
         PlayerPrefs.Save();
+
+        ApplyUpgradesToScene();
     }
 
     public void LoadUpgrades()

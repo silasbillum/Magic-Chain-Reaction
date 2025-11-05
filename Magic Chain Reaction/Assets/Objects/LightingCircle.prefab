@@ -104,13 +104,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetType: 3
   health: 1
-  speed: 2
-  changeDirectionTime: 1.5
-  projectileCount: 2
-  fireBallSpeed: 5
-  lifetime: 5
+  speed: 5
+  changeDirectionTime: 0.5
+  projectileCount: 5
+  fireBallSpeed: 15
+  lifetime: 7
   Explosion: {fileID: 7484666068015564396, guid: a151e8f246a71ba4a93527ae4d09b306, type: 3}
-  Fireball: {fileID: 8400424712307853490, guid: 366377810aaf4fc4ab2be725a54c5712, type: 3}
+  Fireball: {fileID: 0}
+  Lightning: {fileID: 3958596659431381315, guid: b18bf75cc58ad314d87a8b128796dc2a, type: 3}
 --- !u!58 &8822418966449424568
 CircleCollider2D:
   m_ObjectHideFlags: 0

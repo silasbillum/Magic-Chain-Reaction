@@ -16,6 +16,7 @@ public class Target : MonoBehaviour
     [Header("Effects")]
     public GameObject Explosion;
     public GameObject Fireball;
+    public GameObject Lightning;
 
     private Vector2 direction;
     private float timer;
@@ -75,7 +76,8 @@ public class Target : MonoBehaviour
             // fireball always disappears when it hits anything
             Destroy(other.gameObject);
 
-            health--;
+            TakeDamage(1);
+
 
             // only destroy target when health reaches 0
             if (health <= 0)
@@ -89,7 +91,12 @@ public class Target : MonoBehaviour
                 if (comboSystem != null)
                     comboSystem.AddCombo();
 
-             
+                if (targetType == TargetType.Spawner)
+                {
+                    SpawnLightning(); // ⚡ special behavior
+                }
+
+
                 if (targetType != TargetType.Blackhole && projectileCount > 0)
                     Multiply();
 
@@ -117,6 +124,48 @@ public class Target : MonoBehaviour
                 rb.linearVelocity = dir * fireBallSpeed;
         }
     }
+
+    void SpawnLightning()
+    {
+        if (Lightning == null) return;
+
+        GameObject lightning = Instantiate(Lightning, transform.position, Quaternion.identity);
+
+        // Rotate randomly
+        lightning.transform.rotation = Quaternion.Euler(0, 0, Random.Range(0f, 360f));
+
+        // Auto destroy after 1 second
+        Destroy(lightning, 1f);
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (isDestroyed) return;
+
+        health -= amount;
+        if (health <= 0)
+        {
+            isDestroyed = true;
+
+            if (Explosion != null)
+                Instantiate(Explosion, transform.position, transform.rotation);
+
+            if (comboSystem != null)
+                comboSystem.AddCombo();
+
+            if (targetType == TargetType.Spawner)
+                SpawnLightning();
+            else if (targetType != TargetType.Blackhole && projectileCount > 0)
+                Multiply();
+
+            Destroy(gameObject);
+        }
+        else
+        {
+            transform.localScale *= 0.95f;
+        }
+    }
+
 
     public void OnUpgradesApplied(UpgradeManager upgrades)
     {
