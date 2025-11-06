@@ -11,17 +11,34 @@ public class UpgradeStatsUI : MonoBehaviour, IUpgradeListener
     public TMP_Text projectileCountText;
     public TMP_Text fasterCircleSpawnText;
 
-    
+    public GameObject panel;
+
+
 
     private bool isVisible = true;
 
     void Start()
     {
         UpdateUI();
-        gameObject.SetActive(isVisible);
+        panel.SetActive(isVisible);
     }
 
-  
+    void Update()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ToggleVisibility();
+        }
+    }
+
+    private void ToggleVisibility()
+    {
+        isVisible = !isVisible;
+        panel.SetActive(isVisible);
+    }
+
+
 
     public void UpdateUI()
     {

@@ -103,11 +103,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetType: 3
-  health: 1
-  speed: 5
+  health: 2
+  speed: 20
   changeDirectionTime: 0.5
-  projectileCount: 5
-  fireBallSpeed: 15
+  projectileCount: 2
+  fireBallSpeed: 5
   lifetime: 7
   Explosion: {fileID: 7484666068015564396, guid: a151e8f246a71ba4a93527ae4d09b306, type: 3}
   Fireball: {fileID: 0}

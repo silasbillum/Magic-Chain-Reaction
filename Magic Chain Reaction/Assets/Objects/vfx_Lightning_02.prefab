@@ -19530,7 +19530,7 @@ GameObject:
   - component: {fileID: 3390204735954872529}
   m_Layer: 0
   m_Name: vfx_Lightning_02
-  m_TagString: Untagged
+  m_TagString: Fireball
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24429,7 +24429,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f641202b57b54b24792b2e2a8a864f62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 1
+  damagePerTick: 1
+  tickInterval: 0.25
 --- !u!1 &9167944503377273120
 GameObject:
   m_ObjectHideFlags: 0
