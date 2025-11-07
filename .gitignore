@@ -43,7 +43,6 @@ Thumbs.db
 *.apk
 *.aab
 *.ipa
-*.exe
 *.zip
 
 # --- If you export packages locally ---
