@@ -44,8 +44,6 @@ Thumbs.db
 *.aab
 *.ipa
 *.exe
-*.app
-*.dll
 *.zip
 
 # --- If you export packages locally ---
